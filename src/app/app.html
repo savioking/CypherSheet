@@ -1,0 +1,349 @@
+<div class="max-w-7xl mx-auto">
+  <header class="flex flex-col sm:flex-row justify-between items-center mb-8">
+    <div class="flex items-center space-x-4">
+      <img alt="Cypher System Logo" class="h-16 w-16"
+        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHep31AwV25xRPFiuo13opDFfLQRBUkFsZzl08wDTPDOSaPoWDk6gUV4JKHHvQGGP2cRh_Kz17KFmDUwDuT-j94pho39IE9vIcfvki-EHe0YALaJHiYlaC1RyxjBvsmE-QMl8vHhvpVhz0YAWKN8pdcMwv96_C18vxHiYHgaiy0DIClLiQHsdOkuVDZ9pMtRH9SOuEfEwkfG5ryaMpGjbH97osEQQEX_J379LeTDPt6CYED_pDhY6z7sP9Uz6tVKGQfrk6qz2UtGM" />
+      <h1 class="font-display text-2xl sm:text-4xl font-bold text-gray-900 dark:text-white uppercase tracking-wider">
+        Cypher System</h1>
+    </div>
+    <div class="mt-4 sm:mt-0">
+      <button class="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200" (click)="themeToggle()">
+        <span class="material-icons-outlined">dark_mode</span>
+      </button>
+    </div>
+  </header>
+  <main class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="flex flex-col gap-6">
+
+      <!-- Info Block -->
+      <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+        <div class="mb-4">
+          <label class="font-display text-sm uppercase text-primary font-bold" for="name">Nome</label>
+          <input
+            class="block w-full mt-1 rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+            id="name" type="text" />
+        </div>
+        <div class="mb-4">
+          <p class="font-display text-sm uppercase text-primary font-bold">É um (a)</p>
+          <div class="flex flex-col sm:flex-row sm:items-center mt-1 space-y-2 sm:space-y-0 sm:space-x-2">
+            <input
+              class="flex-1 w-full rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+              placeholder="Tipo" type="text" />
+            <input
+              class="flex-1 w-full rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+              placeholder="Descritor" type="text" />
+            <span class="hidden sm:block text-gray-500 dark:text-gray-400">que</span>
+          </div>
+          <input
+            class="block w-full mt-2 rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+            placeholder="Foco" type="text" />
+        </div>
+        <div>
+          <label class="font-display text-sm uppercase text-primary font-bold" for="focus">Flavor</label>
+          <input
+            class="block w-full mt-1 rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+            id="flavor" type="text" />
+        </div>
+      </div>
+
+      <!-- Tier/Effort/XP Block -->
+      <div class="grid grid-cols-3 gap-4">
+        <div
+          class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 text-center">
+          <label class="font-display text-sm uppercase text-primary font-bold" for="tier">Tier</label>
+          <input
+            class="text-2xl font-bold w-full text-center mt-1 bg-transparent border-none p-0 focus:ring-0 text-gray-900 dark:text-white"
+            id="tier" type="number" [(ngModel)]="sheet.tier"/>
+        </div>
+        <div
+          class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 text-center">
+          <label class="font-display text-sm uppercase text-primary font-bold" for="effort">Esforço</label>
+          <input
+            class="text-2xl font-bold w-full text-center mt-1 bg-transparent border-none p-0 focus:ring-0 text-gray-900 dark:text-white"
+            id="effort" type="number" />
+        </div>
+        <div
+          class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 text-center">
+          <label class="font-display text-sm uppercase text-primary font-bold" for="xp">XP</label>
+          <input
+            class="text-2xl font-bold w-full text-center mt-1 bg-transparent border-none p-0 focus:ring-0 text-gray-900 dark:text-white"
+            id="xp" type="number" />
+        </div>
+      </div>
+
+      <!-- Attributes Block -->
+      <div class="grid grid-cols-3 gap-4">
+        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 flex flex-row">
+          <h3 class="font-display text-center uppercase text-primary font-bold mr-3" style="writing-mode: sideways-lr;">Potência</h3>
+          <div class="space-y-2">
+            <input
+              class="w-full text-center rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+              placeholder="Atual" type="number" />
+            <input
+              class="w-full text-center rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+              placeholder="Máx" type="number" />
+            <hr class="border-gray-300 dark:border-gray-600" />
+            <input
+              class="w-full text-center rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+              placeholder="Edge" type="number" />
+          </div>
+        </div>
+        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 flex flex-row">
+          <h3 class="font-display text-center uppercase text-primary font-bold mr-3" style="writing-mode: sideways-lr;">Velocidade</h3>
+          <div class="space-y-2">
+            <input
+              class="w-full text-center rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+              placeholder="Atual" type="number" />
+            <input
+              class="w-full text-center rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+              placeholder="Máx" type="number" />
+            <hr class="border-gray-300 dark:border-gray-600" />
+            <input
+              class="w-full text-center rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+              placeholder="Edge" type="number" />
+          </div>
+        </div>
+        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 flex flex-row">
+          <h3 class="font-display text-center uppercase text-primary font-bold mr-3" style="writing-mode: sideways-lr;">Intelecto</h3>
+          <div class="space-y-2">
+            <input
+              class="w-full text-center rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+              placeholder="Atual" type="number" />
+            <input
+              class="w-full text-center rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+              placeholder="Máx" type="number" />
+              <hr class="border-gray-300 dark:border-gray-600" />
+            <input
+              class="w-full text-center rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+              placeholder="Edge" type="number" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Recovery / Damage Block -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+          <h3 class="font-display uppercase text-primary font-bold mb-3">Recuperação <span
+              class="text-sm font-normal text-gray-500 dark:text-gray-400">1d6 + {{sheet.tier}}</span></h3>
+          <div class="flex flex-row gap-2">
+            <div class="space-y-2 text-sm text-gray-700 dark:text-gray-300">
+              <div class="flex items-center"><input
+                  class="h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-primary focus:ring-primary bg-gray-100 dark:bg-gray-900 dark:ring-offset-gray-800"
+                  type="checkbox" /> <span class="ml-2">1 Ação</span></div>
+              <div class="flex items-center"><input
+                  class="h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-primary focus:ring-primary bg-gray-100 dark:bg-gray-900 dark:ring-offset-gray-800"
+                  type="checkbox" /> <span class="ml-2">1 Hora</span></div>
+            </div>
+            <div class="space-y-2 text-sm text-gray-700 dark:text-gray-300">
+              <div class="flex items-center"><input
+                  class="h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-primary focus:ring-primary bg-gray-100 dark:bg-gray-900 dark:ring-offset-gray-800"
+                  type="checkbox" /> <span class="ml-2">10 Min</span></div>
+              <div class="flex items-center"><input
+                  class="h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-primary focus:ring-primary bg-gray-100 dark:bg-gray-900 dark:ring-offset-gray-800"
+                  type="checkbox" /> <span class="ml-2">10 Horas</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+          <h3 class="font-display uppercase text-primary font-bold mb-3">Marcador de Dano</h3>
+          <div class="space-y-2 text-sm">
+            <label class="flex items-start">
+              <input
+                class="h-4 w-4 mt-0.5 rounded border-gray-300 dark:border-gray-600 text-primary focus:ring-primary bg-gray-100 dark:bg-gray-900 dark:ring-offset-gray-800"
+                type="checkbox" />
+              <div class="ml-2">
+                <span class="font-semibold text-gray-800 dark:text-gray-200">Prejudicado</span>
+              </div>
+            </label>
+            <label class="flex items-start">
+              <input
+                class="h-4 w-4 mt-0.5 rounded border-gray-300 dark:border-gray-600 text-primary focus:ring-primary bg-gray-100 dark:bg-gray-900 dark:ring-offset-gray-800"
+                type="checkbox" />
+              <div class="ml-2">
+                <span class="font-semibold text-gray-800 dark:text-gray-200">Debilitado</span>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!--  -->
+      <div
+        class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 flex-grow">
+        <h3 class="font-display uppercase text-primary font-bold mb-2">Habilidades Especiais</h3>
+        <textarea
+          class="block w-full h-48 rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+          placeholder="List your special abilities here..."></textarea>
+      </div>
+    </div>
+
+    <!-- Column 2 -->
+    <div class="flex flex-col gap-6">
+      
+      <!-- Advancement Block -->
+      <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+        <h3 class="font-display uppercase text-primary font-bold mb-3">Avanços</h3>
+        <div
+          class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 text-xs text-center text-gray-600 dark:text-gray-300">
+          <label class="flex flex-col items-center space-y-2"><input
+              class="h-5 w-5 rounded border-gray-300 dark:border-gray-600 text-primary focus:ring-primary bg-gray-100 dark:bg-gray-900 dark:ring-offset-gray-800"
+              type="checkbox" /><span>+6 nas Reservas</span></label>
+          <label class="flex flex-col items-center space-y-2"><input
+              class="h-5 w-5 rounded border-gray-300 dark:border-gray-600 text-primary focus:ring-primary bg-gray-100 dark:bg-gray-900 dark:ring-offset-gray-800"
+              type="checkbox" /><span>+1 em Edge</span></label>
+          <label class="flex flex-col items-center space-y-2"><input
+              class="h-5 w-5 rounded border-gray-300 dark:border-gray-600 text-primary focus:ring-primary bg-gray-100 dark:bg-gray-900 dark:ring-offset-gray-800"
+              type="checkbox" /><span>+1 em Esforço</span></label>
+          <label class="flex flex-col items-center space-y-2"><input
+              class="h-5 w-5 rounded border-gray-300 dark:border-gray-600 text-primary focus:ring-primary bg-gray-100 dark:bg-gray-900 dark:ring-offset-gray-800"
+              type="checkbox" /><span>Skill Training</span></label>
+          <label class="flex flex-col items-center space-y-2"><input
+              class="h-5 w-5 rounded border-gray-300 dark:border-gray-600 text-primary focus:ring-primary bg-gray-100 dark:bg-gray-900 dark:ring-offset-gray-800"
+              type="checkbox" /><span>Other</span></label>
+        </div>
+      </div>
+      <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+        <h3 class="font-display uppercase text-primary font-bold">Skills • Might</h3>
+        <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">T = trained, S = specialized, I = inability</p>
+        <div class="overflow-y-auto h-32 pr-2 space-y-2 border-b border-gray-200 dark:border-gray-700 pb-2 mb-2">
+          <div class="flex items-center space-x-2">
+            <input
+              class="flex-grow rounded-md text-sm border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+              placeholder="Skill Name" type="text" />
+            <input
+              class="w-8 text-center rounded-md text-sm border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+              placeholder="T" type="text" />
+            <input
+              class="w-8 text-center rounded-md text-sm border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+              placeholder="S" type="text" />
+            <input
+              class="w-8 text-center rounded-md text-sm border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+              placeholder="I" type="text" />
+          </div>
+        </div>
+        <button
+          class="w-full mt-2 text-sm bg-primary/10 text-primary dark:bg-primary/20 dark:text-indigo-300 font-semibold py-2 px-4 rounded-md hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors">Add
+          Skill</button>
+      </div>
+      <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+        <h3 class="font-display uppercase text-primary font-bold">Skills • Speed</h3>
+        <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">T = trained, S = specialized, I = inability</p>
+        <div class="overflow-y-auto h-32 pr-2 space-y-2 border-b border-gray-200 dark:border-gray-700 pb-2 mb-2">
+          <div class="flex items-center space-x-2">
+            <input
+              class="flex-grow rounded-md text-sm border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+              placeholder="Skill Name" type="text" />
+            <input
+              class="w-8 text-center rounded-md text-sm border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+              placeholder="T" type="text" />
+            <input
+              class="w-8 text-center rounded-md text-sm border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+              placeholder="S" type="text" />
+            <input
+              class="w-8 text-center rounded-md text-sm border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+              placeholder="I" type="text" />
+          </div>
+        </div>
+        <button
+          class="w-full mt-2 text-sm bg-primary/10 text-primary dark:bg-primary/20 dark:text-indigo-300 font-semibold py-2 px-4 rounded-md hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors">Add
+          Skill</button>
+      </div>
+      <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+        <h3 class="font-display uppercase text-primary font-bold">Skills • Intellect</h3>
+        <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">T = trained, S = specialized, I = inability</p>
+        <div class="overflow-y-auto h-32 pr-2 space-y-2 border-b border-gray-200 dark:border-gray-700 pb-2 mb-2">
+          <div class="flex items-center space-x-2">
+            <input
+              class="flex-grow rounded-md text-sm border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+              placeholder="Skill Name" type="text" />
+            <input
+              class="w-8 text-center rounded-md text-sm border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+              placeholder="T" type="text" />
+            <input
+              class="w-8 text-center rounded-md text-sm border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+              placeholder="S" type="text" />
+            <input
+              class="w-8 text-center rounded-md text-sm border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+              placeholder="I" type="text" />
+          </div>
+        </div>
+        <button
+          class="w-full mt-2 text-sm bg-primary/10 text-primary dark:bg-primary/20 dark:text-indigo-300 font-semibold py-2 px-4 rounded-md hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors">Add
+          Skill</button>
+      </div>
+      <div
+        class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 flex-grow">
+        <h3 class="font-display uppercase text-primary font-bold">Attacks</h3>
+        <div class="mt-2 space-y-2">
+          <div class="grid grid-cols-12 gap-2 text-xs text-center font-bold text-gray-500 dark:text-gray-400">
+            <div class="col-span-8">Attack Name</div>
+            <div class="col-span-2">Mod</div>
+            <div class="col-span-2">Dam</div>
+          </div>
+          <div class="overflow-y-auto h-32 pr-2 space-y-2 border-b border-gray-200 dark:border-gray-700 pb-2 mb-2">
+            <div class="grid grid-cols-12 gap-2">
+              <input
+                class="col-span-8 rounded-md text-sm border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+                type="text" />
+              <input
+                class="col-span-2 text-center rounded-md text-sm border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+                type="text" />
+              <input
+                class="col-span-2 text-center rounded-md text-sm border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+                type="text" />
+            </div>
+          </div>
+          <button
+            class="w-full mt-2 text-sm bg-primary/10 text-primary dark:bg-primary/20 dark:text-indigo-300 font-semibold py-2 px-4 rounded-md hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors">Add
+            Attack</button>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-col gap-6">
+      <div
+        class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 flex-grow flex flex-col">
+        <div class="flex justify-between items-center mb-2">
+          <h3 class="font-display uppercase text-primary font-bold">Cyphers</h3>
+          <div class="flex items-center space-x-2">
+            <label class="text-sm font-semibold text-gray-500 dark:text-gray-400" for="limit">Limit:</label>
+            <input
+              class="w-16 text-center rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+              id="limit" type="number" />
+          </div>
+        </div>
+        <div
+          class="flex-grow overflow-y-auto h-64 pr-2 space-y-2 border-b border-gray-200 dark:border-gray-700 pb-2 mb-2">
+          <textarea
+            class="block w-full h-20 rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+            placeholder="Cypher description..."></textarea>
+        </div>
+        <button
+          class="w-full mt-2 text-sm bg-primary/10 text-primary dark:bg-primary/20 dark:text-indigo-300 font-semibold py-2 px-4 rounded-md hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors">Add
+          Cypher</button>
+      </div>
+      <div
+        class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 flex-grow flex flex-col">
+        <h3 class="font-display uppercase text-primary font-bold mb-2">Equipment</h3>
+        <div class="flex-grow overflow-y-auto h-64 pr-2 border-b border-gray-200 dark:border-gray-700 pb-2 mb-2">
+          <textarea
+            class="block w-full h-full rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+            placeholder="List your equipment here..."></textarea>
+        </div>
+        <div class="grid grid-cols-2 gap-4 mt-4">
+          <div>
+            <label class="font-display text-sm uppercase text-primary font-bold" for="armor">Armor</label>
+            <input
+              class="block w-full mt-1 rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+              id="armor" type="text" />
+          </div>
+          <div>
+            <label class="font-display text-sm uppercase text-primary font-bold" for="money">Money</label>
+            <input
+              class="block w-full mt-1 rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+              id="money" type="text" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
