@@ -1,10 +1,9 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,FormsModule],
+  imports: [FormsModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
@@ -12,8 +11,98 @@ export class App implements OnInit {
   protected readonly title = signal('CypherSheet');
   
   sheet = {
-    tier: 1
+    name:null,
+    type:null,
+    descriptor:null,
+    focus:null,
+    flavor:null,
+
+    tier: 1,
+    effort:1,
+    xp:0,
+
+    pools: {
+      mig: {curr:null,max:null,edge:null},
+      spd:{curr:null,max:null,edge:null},
+      int:{curr:null,max:null,edge:null}
+    },
+
+    recovery: [false,false,false,false],
+    damage: [false,false],
+
+    advancements: [false,false,false,false,false],
+
+    skills: {
+      mig: [{name:null,grade:null}],
+      spd: [{name:null,grade:null}],
+      int: [{name:null,grade:null}],
+    },
+
+    attacks: [
+      {name:null, mod:null, dmg:null}
+    ],
+
+    abilities: [
+      null
+    ],
+
+    // And artifacts
+    cypherLimit: null,
+    cyphers: [
+      null
+    ],
+
+    equipment: null,
+    armor: null,
+    money: null
+
   };
+
+  countTrue(arrBool:boolean[]){
+    console.log(arrBool.filter(v=>v).length)
+
+    return arrBool.filter(v=>v).length
+  }
+
+  upTier() {
+    this.sheet.tier++
+
+    this.sheet.advancements = [false,false,false,false,false]
+  }
+
+  addSkill(type:"mig"|"spd"|"int") {
+    switch (type) {
+      case "mig":
+        this.sheet.skills.mig.push({name:null,grade:null})
+        break;
+      case "spd":
+        this.sheet.skills.spd.push({name:null,grade:null})
+        break;
+      case "int":
+        this.sheet.skills.int.push({name:null,grade:null})
+        break;
+    
+      default:
+        break;
+    }
+  }
+
+  removeSkill(type:"mig"|"spd"|"int",index:number)  {
+    switch (type) {
+      case "mig":
+        this.sheet.skills.mig.splice(index,1)
+        break;
+      case "spd":
+        this.sheet.skills.spd.splice(index,1)
+        break;
+      case "int":
+        this.sheet.skills.int.splice(index,1)
+        break;
+    
+      default:
+        break;
+    }
+  }
   
   ngOnInit(): void {
     const htmlEl = document.documentElement;
