@@ -70,6 +70,31 @@ export class App implements OnInit {
     this.sheet.advancements = [false,false,false,false,false]
   }
 
+  addAttack() {
+    this.sheet.attacks.push({name:null,mod:null,dmg:null})
+  }
+
+  removeAttack(index:number) {
+    this.sheet.attacks.splice(index,1)
+  }
+
+  addCypher() {
+    this.sheet.cyphers.push(null)
+  }
+
+  removeCypher(index:number) {
+    this.sheet.cyphers.splice(index,1)
+  }
+
+  moveCypher(index:number,ammount:number) {
+    if(ammount < 0 && index == 0) {
+      return
+    } else if (ammount > 0 && index == this.sheet.cyphers.length-1) {
+      return
+    }
+    [this.sheet.cyphers[index + ammount], this.sheet.cyphers[index]] = [this.sheet.cyphers[index], this.sheet.cyphers[index + ammount]]
+  }
+
   addSkill(type:"mig"|"spd"|"int") {
     switch (type) {
       case "mig":

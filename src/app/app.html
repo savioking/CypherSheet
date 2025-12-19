@@ -174,7 +174,7 @@
         <h3 class="font-display uppercase text-primary font-bold mb-2">Habilidades Especiais</h3>
         <textarea [(ngModel)]="sheet.abilities[0]"
           class="block w-full h-48 rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
-          placeholder="List your special abilities here..."></textarea>
+          placeholder="Suas habilidades especiais aqui"></textarea>
       </div>
     </div>
 
@@ -288,25 +288,34 @@
         class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 flex-grow">
         <h3 class="font-display uppercase text-primary font-bold">Ataques</h3>
         <div class="mt-2 space-y-2">
-          <div class="grid grid-cols-12 gap-2 text-xs text-center font-bold text-gray-500 dark:text-gray-400">
-            <div class="col-span-8">Nome</div>
+          <div class="grid grid-cols-12 gap-2 text-xs text-center font-bold text-gray-500 dark:text-gray-400 pr-4">
+            <div class="col-span-7">Nome</div>
             <div class="col-span-2">Mod</div>
             <div class="col-span-2">Dano</div>
+            <div class="col-span-1"></div>
           </div>
           <div class="overflow-y-auto h-32 pr-2 space-y-2 border-b border-gray-200 dark:border-gray-700 pb-2 mb-2">
-            <div class="grid grid-cols-12 gap-2">
-              <input
-                class="col-span-8 rounded-md text-sm border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
-                type="text" />
-              <input
-                class="col-span-2 text-center rounded-md text-sm border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
-                type="text" />
-              <input
-                class="col-span-2 text-center rounded-md text-sm border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
-                type="text" />
-            </div>
+            @for (attack of sheet.attacks; track $index) {
+              <div class="grid grid-cols-12 gap-2">
+                <input [(ngModel)]="attack.name"
+                  class="col-span-7 rounded-md text-sm border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+                  type="text" />
+                <input [(ngModel)]="attack.mod"
+                  class="col-span-2 text-center rounded-md text-sm border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+                  type="text" />
+                <input [(ngModel)]="attack.dmg"
+                  class="col-span-2 text-center rounded-md text-sm border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+                  type="text" />
+                <div class="w-full flex items-center">
+                  <button type="button" class="col-span-1 text-body bg-transparent hover:bg-neutral-tertiary hover:text-heading rounded-base text-sm w-4 h-4 ms-auto inline-flex justify-center items-center" data-modal-hide="default-modal" (click)="removeAttack($index)">
+                    <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6"/></svg>
+                    <span class="sr-only">Remover</span>
+                  </button>
+                </div>
+              </div>
+            }
           </div>
-          <button
+          <button (click)="addAttack()"
             class="w-full mt-2 text-sm bg-primary/10 text-primary dark:bg-primary/20 dark:text-indigo-300 font-semibold py-2 px-4 rounded-md hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors">Novo Ataque</button>
         </div>
       </div>
@@ -315,41 +324,67 @@
       <div
         class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 flex-grow flex flex-col">
         <div class="flex justify-between items-center mb-2">
-          <h3 class="font-display uppercase text-primary font-bold">Cyphers</h3>
+          <h3 class="font-display uppercase text-primary font-bold">Cifras e Artefatos</h3>
           <div class="flex items-center space-x-2">
             <label class="text-sm font-semibold text-gray-500 dark:text-gray-400" for="limit">Limite:</label>
-            <input
+            <input [(ngModel)]="sheet.cypherLimit"
               class="w-16 text-center rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
               id="limit" type="number" />
           </div>
         </div>
-        <div
-          class="flex-grow overflow-y-auto h-64 pr-2 space-y-2 border-b border-gray-200 dark:border-gray-700 pb-2 mb-2">
-          <textarea
-            class="block w-full h-20 rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
-            placeholder="Cypher description..."></textarea>
+        <div class="flex-grow overflow-y-auto h-64 pr-2 space-y-2 border-b border-gray-200 dark:border-gray-700 pb-2 mb-2">
+        @for (cypher of sheet.cyphers; track $index) {
+          <div class="grid grid-cols-12 gap-2">
+            <textarea [(ngModel)]="sheet.cyphers[$index]" 
+              class="col-span-11 block w-full h-20 rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white" style="resize: none;"
+              placeholder="Descrição da Cifra / Artefato"></textarea>
+            <div class="flex flex-col items-center justify-around">
+              <button type="button" class="col-span-1 text-body bg-transparent hover:bg-neutral-tertiary hover:text-heading rounded-base text-sm w-4 h-4 ms-auto inline-flex justify-center items-center" data-modal-hide="default-modal" (click)="moveCypher($index,-1)">
+                <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                    width="24" height="24" fill="none" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="2" d="M18 15 12 9 6 15"/>
+                </svg>
+
+                <span class="sr-only">Remover</span>
+              </button>
+              <button type="button" class="col-span-1 text-body bg-transparent hover:bg-neutral-tertiary hover:text-heading rounded-base text-sm w-4 h-4 ms-auto inline-flex justify-center items-center" data-modal-hide="default-modal" (click)="removeCypher($index)">
+                <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6"/></svg>
+                <span class="sr-only">Remover</span>
+              </button>
+              <button type="button" class="col-span-1 text-body bg-transparent hover:bg-neutral-tertiary hover:text-heading rounded-base text-sm w-4 h-4 ms-auto inline-flex justify-center items-center" data-modal-hide="default-modal" (click)="moveCypher($index,1)">
+                <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                    width="24" height="24" fill="none" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="2" d="M6 9 12 15 18 9"/>
+                </svg>
+
+                <span class="sr-only">Remover</span>
+              </button>
+            </div>
+          </div>
+          }
         </div>
-        <button
-          class="w-full mt-2 text-sm bg-primary/10 text-primary dark:bg-primary/20 dark:text-indigo-300 font-semibold py-2 px-4 rounded-md hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors">Add
-          Cypher</button>
+        <button (click)="addCypher()"
+          class="w-full mt-2 text-sm bg-primary/10 text-primary dark:bg-primary/20 dark:text-indigo-300 font-semibold py-2 px-4 rounded-md hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors">Nova Cifra / Artefato</button>
       </div>
       <div
         class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 flex-grow flex flex-col">
-        <h3 class="font-display uppercase text-primary font-bold mb-2">Equipment</h3>
+        <h3 class="font-display uppercase text-primary font-bold mb-2">Equipamento</h3>
         <div class="flex-grow overflow-y-auto h-64 pr-2 border-b border-gray-200 dark:border-gray-700 pb-2 mb-2">
           <textarea
             class="block w-full h-full rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
-            placeholder="List your equipment here..."></textarea>
+            placeholder="Seus equipamentos aqui..."></textarea>
         </div>
-        <div class="grid grid-cols-2 gap-4 mt-4">
-          <div>
-            <label class="font-display text-sm uppercase text-primary font-bold" for="armor">Armor</label>
+        <div class="grid grid-cols-7 gap-4 mt-4">
+          <div class="col-span-2">
+            <label class="font-display text-sm uppercase text-primary font-bold" for="armor">Armadura</label>
             <input
-              class="block w-full mt-1 rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
-              id="armor" type="text" />
+              class="block w-full text-center mt-1 rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+              id="armor" type="number" />
           </div>
-          <div>
-            <label class="font-display text-sm uppercase text-primary font-bold" for="money">Money</label>
+          <div class="col-span-5">
+            <label class="font-display text-sm uppercase text-primary font-bold" for="money">Dinheiro</label>
             <input
               class="block w-full mt-1 rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
               id="money" type="text" />
