@@ -1,5 +1,95 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, HostListener, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+
+
+// Create a deep reactive proxy for the sheet that calls onChange whenever any nested property is modified.
+// It wraps objects and arrays recursively and uses a WeakMap cache to avoid re-wrapping.
+function createReactiveSheet<T extends object>(obj: T, onChange: () => void): T {
+  const cache = new WeakMap<object, any>();
+
+  function proxify<TVal>(value: TVal): TVal {
+    if (value === null || typeof value !== 'object') return value;
+    if (cache.has(value as unknown as object)) return cache.get(value as unknown as object);
+    const target = value as unknown as any;
+
+    // Pre-wrap existing nested properties so further mutations are proxied.
+    for (const key of Object.keys(target)) {
+      target[key] = proxify(target[key]);
+    }
+
+    const handler: ProxyHandler<any> = {
+      get(t, prop, receiver) {
+        const v = Reflect.get(t, prop, receiver);
+        return proxify(v);
+      },
+      set(t, prop, newVal, receiver) {
+        const wrapped = proxify(newVal);
+        const result = Reflect.set(t, prop, wrapped, receiver);
+        try { onChange(); } catch (_) {}
+        return result;
+      },
+      deleteProperty(t, prop) {
+        const result = Reflect.deleteProperty(t, prop);
+        try { onChange(); } catch (_) {}
+        return result;
+      }
+    };
+
+    const p = new Proxy(target, handler);
+    cache.set(value as unknown as object, p);
+    return p;
+  }
+
+  return proxify(obj);
+}
+
+// Default sheet template used when there is no saved data
+const DEFAULT_SHEET = {
+  name: null,
+  type: null,
+  descriptor: null,
+  focus: null,
+  flavor: null,
+
+  tier: 1,
+  effort: 1,
+  xp: 0,
+
+  pools: {
+    mig: { curr: null, max: null, edge: null },
+    spd: { curr: null, max: null, edge: null },
+    int: { curr: null, max: null, edge: null }
+  },
+
+  recovery: [false,false,false,false],
+  damage: [false,false],
+
+  advancements: [false,false,false,false,false],
+
+  skills: {
+    mig: [{name:null,grade:null}],
+    spd: [{name:null,grade:null}],
+    int: [{name:null,grade:null}],
+  },
+
+  attacks: [
+    {name:null, mod:null, dmg:null}
+  ],
+
+  abilities: [
+    null
+  ],
+
+  // And artifacts
+  cypherLimit: null,
+  cyphers: [
+    null
+  ],
+
+  equipment: null,
+  armor: null,
+  money: null
+};
 
 @Component({
   selector: 'app-root',
@@ -9,54 +99,56 @@ import { FormsModule } from '@angular/forms';
 })
 export class App implements OnInit {
   protected readonly title = signal('CypherSheet');
-  
-  sheet = {
-    name:null,
-    type:null,
-    descriptor:null,
-    focus:null,
-    flavor:null,
 
-    tier: 1,
-    effort:1,
-    xp:0,
+  // Source - https://stackoverflow.com/a
+  // Posted by Marco Bérubé
+  // Retrieved 2025-12-25, License - CC BY-SA 4.0
 
-    pools: {
-      mig: {curr:null,max:null,edge:null},
-      spd:{curr:null,max:null,edge:null},
-      int:{curr:null,max:null,edge:null}
-    },
+  @HostListener('window:beforeunload', ['$event'])
+  showAlertMessageWhenClosingTab($event: { returnValue: string; }) {
+      if(this.changeDanger){
+        $event.returnValue = 'Your data will be lost!';
+      }
+  }
 
-    recovery: [false,false,false,false],
-    damage: [false,false],
+  changeDanger = false;
 
-    advancements: [false,false,false,false,false],
+  isDarkMode: boolean = false;
 
-    skills: {
-      mig: [{name:null,grade:null}],
-      spd: [{name:null,grade:null}],
-      int: [{name:null,grade:null}],
-    },
+  // The sheet is created in ngOnInit as a reactive proxy so any nested mutation will set `changeDanger` to true.
+  sheet: any;
 
-    attacks: [
-      {name:null, mod:null, dmg:null}
-    ],
+  saveSheet() {
+    localStorage.setItem('cyphersheet', JSON.stringify(this.sheet));
+    // Mark as saved
+    this.changeDanger = false;
+  }
 
-    abilities: [
-      null
-    ],
+  exportSheet() {
+    const sheetData = JSON.stringify(this.sheet);
+    const blob = new Blob([sheetData], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'cyphersheet.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
 
-    // And artifacts
-    cypherLimit: null,
-    cyphers: [
-      null
-    ],
+  resetSheet() {
+    if(confirm("Tem certeza que deseja reiniciar a ficha? Todas as alterações não salvas serão perdidas.")) {
+      this.sheet = createReactiveSheet(DEFAULT_SHEET, () => this.changeDanger = true);
+      this.changeDanger = true;
+    }
+  }
 
-    equipment: null,
-    armor: null,
-    money: null
-
-  };
+  setAutosaveTimer() {
+    setInterval(() => {
+      if(this.changeDanger) {
+        this.saveSheet();
+      }
+    }, 30000); // Save every 30 seconds if there are changes
+  }
 
   countTrue(arrBool:boolean[]){
     console.log(arrBool.filter(v=>v).length)
@@ -68,6 +160,23 @@ export class App implements OnInit {
     this.sheet.tier++
 
     this.sheet.advancements = [false,false,false,false,false]
+  }
+
+  addAbility() {
+    this.sheet.abilities.push(null)
+  }
+
+  removeAbility(index:number) {
+    this.sheet.abilities.splice(index,1)
+  }
+
+  moveAbility(index:number,ammount:number) {
+    if(ammount < 0 && index == 0) {
+      return
+    } else if (ammount > 0 && index == this.sheet.abilities.length-1) {
+      return
+    } 
+    [this.sheet.abilities[index + ammount], this.sheet.abilities[index]] = [this.sheet.abilities[index], this.sheet.abilities[index + ammount]]
   }
 
   addAttack() {
@@ -132,10 +241,22 @@ export class App implements OnInit {
   ngOnInit(): void {
     const htmlEl = document.documentElement;
 
+    this.isDarkMode = localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+
     if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
       htmlEl.classList.add('dark');
     } else {
       htmlEl.classList.remove('dark');
+    }
+
+    const savedSheet = localStorage.getItem('cyphersheet');
+    if (savedSheet) {
+      const parsed = JSON.parse(savedSheet);
+      this.sheet = createReactiveSheet(parsed, () => this.changeDanger = true);
+      // Loaded data is the baseline - no unsaved changes yet
+      this.changeDanger = false;
+    } else {
+      this.sheet = createReactiveSheet(DEFAULT_SHEET, () => this.changeDanger = true);
     }
   }
 
@@ -150,5 +271,7 @@ export class App implements OnInit {
       htmlEl.classList.add('dark');
       localStorage.setItem('theme', 'dark');
     }
+
+    this.isDarkMode = !this.isDarkMode
   }
 }
