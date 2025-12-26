@@ -1,10 +1,10 @@
 <div class="max-w-7xl mx-auto">
   <header class="flex flex-col sm:flex-row justify-between items-center mb-8">
     <div class="flex items-center space-x-4">
-      <img alt="Cypher System Logo" class="h-16"
-        src="https://cypher-system.com/wp-content/uploads/revslider/cs-2/Cypher-Logo-v1-white-dark-glow.png" />
-      <!-- <h1 class="font-display text-2xl sm:text-4xl font-bold text-gray-900 dark:text-white uppercase tracking-wider">
-        Cypher System</h1> -->
+      <!-- <img alt="Cypher System Logo" class="h-16"
+        src="https://cypher-system.com/wp-content/uploads/revslider/cs-2/Cypher-Logo-v1-white-dark-glow.png" /> -->
+      <h1 class="font-display text-2xl sm:text-4xl font-bold text-gray-900 dark:text-white uppercase tracking-wider">
+        Cypher System</h1>
       <!-- Save Button -->
        <div>
          <button class="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200" (click)="saveSheet()" style="height: 40px;">
@@ -20,6 +20,12 @@
         <div class="ml-2">
           <button class="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200" (click)="exportSheet()" style="height: 40px;">
             <span class="material-icons-outlined">file_download</span>
+          </button>
+        </div>
+        <!-- Import Button -->
+        <div class="ml-2">
+          <button class="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200" (click)="importSheet()" style="height: 40px;">
+            <span class="material-icons-outlined">file_upload</span>
           </button>
         </div>
         <!-- Reset Button -->
@@ -205,7 +211,7 @@
         @for (hab of sheet.abilities; track $index) {
           <div class="grid grid-cols-12 gap-2">
             <textarea [(ngModel)]="sheet.abilities[$index]" 
-              class="col-span-11 block w-full h-20 rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white" style="resize: none;"
+              class="col-span-11 block w-full h-20 rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white text-sm" style="resize: none;"
               placeholder="Descrição da habilidade"></textarea>
             <div class="flex flex-col items-center justify-around">
               <button type="button" class="col-span-1 text-body bg-transparent hover:bg-neutral-tertiary hover:text-heading rounded-base text-sm w-4 h-4 ms-auto inline-flex justify-center items-center" data-modal-hide="default-modal" (click)="moveAbility($index,-1)">
@@ -392,7 +398,7 @@
           <div class="flex items-center space-x-2">
             <label class="text-sm font-semibold text-gray-500 dark:text-gray-400" for="limit">Limite:</label>
             <input [(ngModel)]="sheet.cypherLimit"
-              class="w-16 text-center rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
+              class="w-10 text-center rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
               id="limit" type="number" />
           </div>
         </div>
@@ -400,7 +406,7 @@
         @for (cypher of sheet.cyphers; track $index) {
           <div class="grid grid-cols-12 gap-2">
             <textarea [(ngModel)]="sheet.cyphers[$index]" 
-              class="col-span-11 block w-full h-20 rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white" style="resize: none;"
+              class="col-span-11 block w-full h-20 rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white text-sm" style="resize: none;"
               placeholder="Descrição da Cifra / Artefato"></textarea>
             <div class="flex flex-col items-center justify-around">
               <button type="button" class="col-span-1 text-body bg-transparent hover:bg-neutral-tertiary hover:text-heading rounded-base text-sm w-4 h-4 ms-auto inline-flex justify-center items-center" data-modal-hide="default-modal" (click)="moveCypher($index,-1)">
@@ -436,20 +442,20 @@
         class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 flex-grow flex flex-col">
         <h3 class="font-display uppercase text-primary font-bold mb-2">Equipamento</h3>
         <div class="flex-grow overflow-y-auto h-64 pr-2 border-b border-gray-200 dark:border-gray-700 pb-2 mb-2">
-          <textarea
+          <textarea [(ngModel)]="sheet.equipment"
             class="block w-full h-full rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
             placeholder="Seus equipamentos"></textarea>
         </div>
         <div class="grid grid-cols-7 gap-4 mt-4">
           <div class="col-span-2">
             <label class="font-display text-sm uppercase text-primary font-bold" for="armor">Armadura</label>
-            <input
+            <input [(ngModel)]="sheet.armor"
               class="block w-full text-center mt-1 rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
               id="armor" type="number" />
           </div>
           <div class="col-span-5">
             <label class="font-display text-sm uppercase text-primary font-bold" for="money">Dinheiro</label>
-            <input
+            <input [(ngModel)]="sheet.money"
               class="block w-full mt-1 rounded-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 text-gray-900 dark:text-white"
               id="money" type="text" />
           </div>

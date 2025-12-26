@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 
@@ -98,6 +98,8 @@ const DEFAULT_SHEET = {
   styleUrl: './app.css'
 })
 export class App implements OnInit {
+  constructor(private cd: ChangeDetectorRef) {}
+
   protected readonly title = signal('CypherSheet');
 
   // Source - https://stackoverflow.com/a
@@ -133,6 +135,28 @@ export class App implements OnInit {
     a.download = 'cyphersheet.json';
     a.click();
     URL.revokeObjectURL(url);
+  }
+
+  importSheet() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'application/json';
+    input.onchange = (e: any) => {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onload = (event: any) => {
+        try {
+          const importedSheet = JSON.parse(event.target.result);
+          this.sheet = createReactiveSheet(importedSheet, () => this.changeDanger = true);
+          this.changeDanger = true;
+          this.cd.detectChanges();
+        } catch (error) {
+          alert('Erro ao importar a ficha: arquivo inválido.');
+        }
+      };
+      reader.readAsText(file);
+    };
+    input.click();
   }
 
   resetSheet() {
